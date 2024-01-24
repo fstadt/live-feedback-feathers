@@ -33,14 +33,16 @@
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
   // Set up socket.io
-  const socket = io('http://localhost:3030');
+  const connectionString = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/`;
+  console.log(`Connection to ${connectionString}`);
+  const socket = io(connectionString);
   // Initialize a Feathers app
   const app = feathers();
   // Initialize chart variable
   let chart;
 
   // Register socket.io to talk to our server
-  app.configure(feathers.socketio(socket))
+  app.configure(feathers.socketio(socket));
 
   function reset() {
     socket.emit("reset", "votes", {secret: "idon'tcare"}, {});
